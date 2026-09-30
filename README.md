@@ -1,10 +1,14 @@
 # claude-orkestra
 
-Claude Code için, döküman → kod'a giden tam bir proje geliştirme pipeline'ı sağlayan slash komut seti.
+Proje dökümanını verirsin — sırayla analiz eder, mimariyi çıkarır, görev listesine böler, kodu yazar, test eder, güvenlik taraması yapar ve dokümantasyonu günceller. Claude Code için uçtan uca bir geliştirme pipeline'ı: 9 slash komut, tek akış.
 
-**Akış:** döküman analizi → akış şeması → görev listesi → sıralı geliştirme → test → güvenlik taraması → dokümantasyon.
+## Ne yapar
 
-Her aşama, bir sonrakinin girdisini okuyan ve `docs/` altına kalıcı, insan-okunabilir çıktı (`ANALIZ.md`, `FLOWCHART.md`, `TODO.md`, `GUVENLIK_RAPORU.md`) bırakan ayrı bir komut. `/proje-orkestra` hepsini sırayla çalıştırır; geliştirmeye geçmeden önce ve kritik güvenlik bulgusunda durup onay ister.
+Dökümandan çalışan, test edilmiş, dokümante edilmiş koda giden 7 aşamalı bir hat kurar:
+
+**döküman analizi → akış şeması → görev listesi → sıralı geliştirme → test → güvenlik taraması → dokümantasyon**
+
+Her aşama bir öncekinin çıktısını okur, kendi çıktısını `docs/` altına — insan tarafından da okunabilir, git'e commit edilebilir dosyalar olarak — bırakır. `/proje-orkestra` hepsini otomatik sırayla çalıştırır; geliştirmeye geçmeden önce ve kritik bir güvenlik bulgusu çıkarsa durup senden onay ister.
 
 ## Kurulum
 
@@ -58,19 +62,18 @@ veya tek komutla:
 /proje-orkestra proje-dokumanim.md
 ```
 
-## Notlar
+## Neden Cursor'daki orijinali değil de bu?
 
-- Claude Code'un zaten sahip olduğu yeteneklerle (Plan mode, TodoWrite, Task tool ile subagent, `security-review` skill'i, `superpowers` eklentisi) kısmen örtüşür. Bu komutlar, aynı işi **açık, zorunlu bir sırayla ve kalıcı `docs/` çıktılarıyla** yapmak isteyenler için bir alternatif — otomatik/bağlamsal tetiklenen yerleşik yeteneklerin yerine geçmek zorunda değil, yanında durabilir.
-- Sistem komutu/script çalıştırılması gereken adımlarda (`npm install`, test çalıştırma vb.) Claude Code kendi izin/onay akışını izler.
+Fikir Cursor IDE için yazılmış iki projeden geliyor, ama onları olduğu gibi kullanmak mümkün değil: Cursor'un komut/kural dosyaları `.cursor/` klasöründe yaşıyor ve Cursor'un kendi SDK'sına (`@cursor/sdk`, `CURSOR_API_KEY`) ve agent API'sine bağımlı — Claude Code bunları hiç tanımıyor, olduğu gibi kopyalasan çalışmaz.
+
+`claude-orkestra`, aynı iş akışı mantığını Claude Code'un kendi komut formatına (`.claude/commands/*.md`), kendi araçlarına ve kendi izin/onay modeline göre sıfırdan yazılmış hali — Cursor kullanmayan, Claude Code'da çalışan herkes için.
 
 ## Kaynak / İlham
 
-Bu proje, [Erhan Kaya](https://github.com/KayaErhan)'nın **Cursor IDE** için hazırladığı şu iki projedeki iş akışı mantığından ilham alınarak, **Claude Code** için baştan yazılmıştır:
+İş akışı konsepti [Erhan Kaya](https://github.com/KayaErhan)'nın şu iki Cursor projesinden geliyor:
 
-- [cursor-agent-tr](https://github.com/KayaErhan/cursor-agent-tr) — otonom geliştirme ajanı (döküman analizi → akış şeması → görev planlama → geliştirme → test → güvenlik taraması → dokümantasyon)
-- [cursor-agent-code-quality-control](https://github.com/KayaErhan/cursor-agent-code-quality-control) — kod kalite/güvenlik denetim ajanı
-
-Komut içerikleri orijinal olarak yeniden yazılmıştır (doğrudan kopya değildir) ve Claude Code'un kendi araç/izin modeline uyarlanmıştır; Cursor'a özgü kısımlar (10 agent orkestrasyonu, Cursor SDK'ya bağımlı CLI modu, zorunlu admin paneli/tech-stack dayatmaları, Docker/CI entegrasyonu) kasıtlı olarak alınmamıştır — sadece genel iş akışı mantığı taşınmıştır.
+- [cursor-agent-tr](https://github.com/KayaErhan/cursor-agent-tr)
+- [cursor-agent-code-quality-control](https://github.com/KayaErhan/cursor-agent-code-quality-control)
 
 ## Lisans
 
