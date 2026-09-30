@@ -12,22 +12,27 @@ Her aşama bir öncekinin çıktısını okur, kendi çıktısını `docs/` alt�
 
 ## Kurulum
 
-`commands/` klasöründeki dosyaları Claude Code'un komut klasörüne kopyala:
+### Tek komutla (önerilen)
 
-**Global (her projede kullanılabilir):**
+Repo'yu klonlamana gerek yok — indirir, doğru klasöre kopyalar, temizler.
+
+**macOS / Linux:**
 ```bash
-cp commands/*.md ~/.claude/commands/
+curl -fsSL https://raw.githubusercontent.com/toprakkulekcioglu/claude-orkestra/master/install.sh | bash
 ```
 
-**Sadece bu proje için:**
-```bash
-mkdir -p .claude/commands
-cp commands/*.md .claude/commands/
-```
-
-Windows / PowerShell:
+**Windows (PowerShell):**
 ```powershell
-Copy-Item commands\*.md "$env:USERPROFILE\.claude\commands\"
+irm https://raw.githubusercontent.com/toprakkulekcioglu/claude-orkestra/master/install.ps1 | iex
+```
+
+Bu, komutları global olarak `~/.claude/commands/` altına kurar (her projede kullanılabilir). Farklı bir yere kurmak istersen script'e hedef klasörü argüman olarak ver — örneğin sadece belirli bir projeye kurmak için proje kökünde `.claude/commands`.
+
+### Manuel (repoyu incelemek/klonlamak istersen)
+
+```bash
+git clone https://github.com/toprakkulekcioglu/claude-orkestra.git
+cp claude-orkestra/commands/*.md ~/.claude/commands/
 ```
 
 ## Komutlar
